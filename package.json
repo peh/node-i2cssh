@@ -1,0 +1,27 @@
+{
+  "name": "node-i2cssh",
+  "version": "1.0.0",
+  "description": "i2cssh with the help of node and osascript",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/peh/node-i2cssh.git"
+  },
+  "keywords": [
+    "iterm",
+    "osascript"
+  ],
+  "author": "Philipp Eschenbach",
+  "license": "Unlicense",
+  "bugs": {
+    "url": "https://github.com/peh/node-i2cssh/issues"
+  },
+  "homepage": "https://github.com/peh/node-i2cssh#readme",
+  "preferGlobal": true,
+  "bin": {
+    "i2cssh": "index.js"
+  },
+  "dependencies": {}
+}
