@@ -15,6 +15,7 @@ var argv = require('yargs')
   .alias('C', 'config')
   .alias('c', 'clusters')
   .alias('t', 'tag')
+  .alias('h', 'help')
   .argv;
 
 var I2CSSH_CONFIG_FILE = process.env.HOME + '/.i2csshrc';
@@ -107,7 +108,7 @@ function getFilter(tagString) {
 }
 
 function run() {
-	var configFileLocation
+  var configFileLocation
   if (argv.C) {
     configFileLocation = argv.C
   } else if (fileExists(I2CSSH_CONFIG_FILE)) {
@@ -118,7 +119,7 @@ function run() {
     config = yaml.safeLoad(fs.readFileSync(configFileLocation, 'utf8'));
   }
 
-	initConfig()
+  initConfig()
 
   if (argv.t) {
     promises.push(parseTags(argv.t))
@@ -126,6 +127,14 @@ function run() {
 
   if (argv.c) {
     promises.push(parseClusters(argv.c))
+  }
+  
+  if (argv.h) {
+     console.log("-C  --  YAML config file to use\n" + "-c name  --  pass in a cluster name defined in your config file\n" + "-t name  --  ec2 tag to connect to")
+  }
+  
+  if (argv = null ) {
+     console.log("-C  --  YAML config file to use\n" + "-c name  --  pass in a cluster name defined in your config file\n" + "-t name  --  ec2 tag to connect to")
   }
 
   Promise.all(promises).then(function(results) {
