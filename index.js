@@ -15,6 +15,7 @@ var argv = require('yargs')
   .alias('C', 'config')
   .alias('c', 'clusters')
   .alias('t', 'tag')
+  .alias('h', 'help')
   .argv;
 
 var I2CSSH_CONFIG_FILE = process.env.HOME + '/.i2csshrc';
