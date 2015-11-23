@@ -1,0 +1,28 @@
+---
+aws:
+  region: eu-central-1            # the aws region to doi calls to
+  usePrivateDns: false            # whether to use private dns names
+clusters:                         # cluster definitions
+  dev:                            # cluster name
+    hosts:                        # a list of hostnames
+      - host1-dev.example.com
+      - host2-dev.example.com
+  staging:
+    hosts:
+      - host1-staging.example.com
+      - host2-staging.example.com
+      - host3-staging.example.com
+      - host4-staging.example.com
+      - host5-staging.example.com
+  prod:
+    hosts:
+      - host01.example.com
+      - host02.example.com
+      - host03.example.com
+      - host04.example.com
+      - host05.example.com
+      - host06.example.com
+      - host07.example.com
+      - host08.example.com
+      - host09.example.com
+      - host10.example.com
