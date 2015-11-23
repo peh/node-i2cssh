@@ -27,3 +27,8 @@ adds the given clusters hosts from the config to the hosts to connect to.
 ### -t --tags
 ec2 tag in the format of $NAME_$VALUE (underscore separated as it is forbidden to be used in tags)
 `i2cssh -t env_staging -t end_dev`
+
+## EC2 Integration
+For the EC2 integration to work, you need to have `AWS_SECRET_ACCESS_KEY` and `AWS_ACCESS_KEY_ID` set as environment variables.
+I recommend using [envchain](https://github.com/sorah/envchain) and creating some alias for i2cssh wrapping it into envchain like
+`alias i2cssh="envchain aws i2cssh $@"`
