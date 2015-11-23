@@ -20,11 +20,10 @@ var argv = require('yargs')
 var I2CSSH_CONFIG_FILE = process.env.HOME + '/.i2csshrc';
 var hosts = argv._
 var promises = []
-var configFileLocation
 
 function action(hostnames) {
   hostnames.unshift('osascript', '-l', 'JavaScript', file)
-    //require('child_process').exec(hostnames.join(" "))
+  require('child_process').exec(hostnames.join(" "))
 }
 
 function initConfig() {
@@ -108,6 +107,7 @@ function getFilter(tagString) {
 }
 
 function run() {
+	var configFileLocation
   if (argv.C) {
     configFileLocation = argv.C
   } else if (fileExists(I2CSSH_CONFIG_FILE)) {
@@ -115,7 +115,7 @@ function run() {
   }
 
   if (configFileLocation) {
-    config = yaml.safeLoad(fs.readFileSync(I2CSSH_CONFIG_FILE, 'utf8'));
+    config = yaml.safeLoad(fs.readFileSync(configFileLocation, 'utf8'));
   }
 
 	initConfig()
@@ -127,8 +127,6 @@ function run() {
   if (argv.c) {
     promises.push(parseClusters(argv.c))
   }
-
-
 
   Promise.all(promises).then(function(results) {
     hosts = _.uniq(hosts.concat(_.flatten(results)))
