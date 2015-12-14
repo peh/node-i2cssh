@@ -47,7 +47,7 @@ I recommend using [envchain](https://github.com/sorah/envchain) and creating som
 ## ToDo
 
 * fully support original .i2csshrc
- * broadcast: (true/false)     # Enable/disable broadcast on start
+ * DONE ~~broadcast: (true/false)     # Enable/disable broadcast on start~~
  * login: <username>           # Use this username for login
  * profile: <iTerm2 profile>   # Use this iTerm profile
  * rank: (true/false)          # Enable sending LC_RANK as an environment variable
