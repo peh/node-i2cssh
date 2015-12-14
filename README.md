@@ -24,6 +24,10 @@ overwrites the default config file location
 adds the given clusters hosts from the config to the hosts to connect to.
 `i2cssh -c dev -c staging`
 
+### -b --broadcast
+starts the broadcast mode immediatly after all tabs are created
+`i2cssh -b foo1.bar foo2.bar foo3.bar`
+
 ### -t --tags
 ec2 tag in the format of $NAME_$VALUE (underscore separated as it is forbidden to be used in tags)
 `i2cssh -t env_staging -t end_dev`
@@ -58,7 +62,7 @@ I recommend using [envchain](https://github.com/sorah/envchain) and creating som
  * -F, --fullscreen                 Make the window fullscreen
  * --columns COLUMNS            Number of columns (rows will be calculated)
  * --rows ROWS                  Number of rows (columns will be calculated)
- * -b, --broadcast                  Start with broadcast input (DANGEROUS!)
+ * DONE ~~-b, --broadcast                  Start with broadcast input (DANGEROUS!)~~
  * -nb, --nobroadcast               Disable broadcast
  * -p, --profile PROFILE            Name of the iTerm2 profile (default: Default)
  * -s, --sleep SLEEP                Number of seconds to sleep between creating SSH sessions

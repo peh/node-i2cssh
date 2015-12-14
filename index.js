@@ -16,18 +16,30 @@ var argv = require('yargs')
   .alias('C', 'config')
   .alias('c', 'clusters')
   .alias('t', 'tag')
+  .alias('b', 'broadcast')
   .argv;
 
 var I2CSSH_CONFIG_FILE = process.env.HOME + '/.i2csshrc';
 var hosts = argv._
 var promises = []
 
-function action(hostnames) {
-  hostnames.unshift('osascript', '-l', 'JavaScript', file)
-  require('child_process').exec(hostnames.join(" "))
+function action(cmd, runConfig) {
+  cmd.unshift('osascript', '-l', 'JavaScript', file)
+  cmd.push("'" + JSON.stringify(runConfig) + "'")
+  require('child_process').exec(cmd.join(" "))
+}
+
+function checkOptionalParameters(config, runConfig) {
+  if (config.broadcast === true) {
+    runConfig.broadcast = true
+  }
+  if (config.direction !== undefined) {
+    runConfig.direction = config.direction
+  }
 }
 
 function initConfig() {
+  var result = {}
   if (config.aws) {
     AWS.config.update(config.aws)
   } else {
@@ -35,22 +47,28 @@ function initConfig() {
       region: 'us-west-1'
     })
   }
+  if (config.broadcast === true) {
+    result.broadcast = true
+  }
+  return result
 }
 
-function parseClusters(clusters) {
+function parseClusters(clusters, runConfig) {
   var result = []
   if (typeof clusters === 'string') {
     clusters = [clusters]
   }
   var configuredClusters = config.clusters || {}
+  checkOptionalParameters(configuredClusters, runConfig)
   return new Promise(function(resolve, reject) {
     _.each(clusters, function(cluster) {
       var fromConf = configuredClusters[cluster]
       if (!fromConf) {
-        console.log(cluster + " is not configured and is being ignored")
+        console.error(cluster + " is not configured and is being ignored")
       } else if (!fromConf.hosts) {
-        console.log(cluster + " has no hosts configured.")
+        console.error(cluster + " has no hosts configured.")
       } else {
+        checkOptionalParameters(fromConf, runConfig)
         result = result.concat(fromConf.hosts)
       }
       resolve(result)
@@ -72,19 +90,23 @@ function run() {
 
   initConfig()
 
+  if (argv.b) {
+    config.broadcast = true
+  }
+
   if (argv.t) {
     promises.push(parseTags(argv.t, config))
   }
 
   if (argv.c) {
-    promises.push(parseClusters(argv.c))
+    promises.push(parseClusters(argv.c, config))
   }
 
   Promise.all(promises).then(function(results) {
     hosts = _.uniq(hosts.concat(_.flatten(results)))
-      action(hosts)
+    action(hosts, config)
   }, function(errors) {
-    console.log(errors)
+    console.error(errors)
   })
 }
 

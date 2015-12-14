@@ -1,6 +1,6 @@
 {
   "name": "node-i2cssh",
-  "version": "1.3.1",
+  "version": "1.4.0",
   "description": "i2cssh with the help of node and osascript",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -29,6 +29,8 @@
     "inquirer": "^0.11.0",
     "js-yaml": "^3.4.5",
     "lodash": "^3.10.1",
+    "osascript": "^1.2.0",
+    "var": "^0.1.3",
     "yargs": "^3.27.0"
   }
 }
