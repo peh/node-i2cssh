@@ -10,6 +10,7 @@ var path = require('path');
 var file = path.resolve(__dirname, 'lib/i2cssh.js');
 var yaml = require('js-yaml');
 var fs = require('fs');
+var parseTags = require('./lib/parse-tags.js')
 
 var argv = require('yargs')
   .alias('C', 'config')
@@ -57,57 +58,8 @@ function parseClusters(clusters) {
   });
 }
 
-function parseTags(tags, hostnames) {
-  var filters = []
-  if (typeof tags == "string") {
-    filters.push(getFilter(tags))
-  } else {
-    _.each(tags, function(tag) {
-      filters.push(getFilter(tag))
-    })
-  }
-  return new Promise(function(resolve, reject) {
-    var hostnames = []
-    var checkField = "PublicDnsName"
-    if (config.aws.usePrivateDns) {
-      checkField = "PrivateDnsName"
-    }
-    new EC2().describeInstances({
-      Filters: filters
-    }, function(error, data) {
-      if (!error) {
-        _.each(data.Reservations, function(res) {
-          _.each(res.Instances, function(instance) {
-            hostnames.push(instance[checkField])
-          })
-        });
-        if (hostnames.length > 0) {
-          resolve(hostnames);
-
-        } else {
-          reject(Error("no hostnames found for the given tag"));
-        }
-      } else {
-        reject(error);
-      }
-    });
-  });
-}
-
-function getFilter(tagString) {
-  var splitted = tagString.split('_')
-  var tagKey = splitted[0]
-  var tagValue = splitted[1]
-  var values = {}
-  return {
-    Name: "tag:" + tagKey,
-    Values: [tagValue],
-    //"resource-type": 'instance'
-  }
-}
-
 function run() {
-	var configFileLocation
+  var configFileLocation
   if (argv.C) {
     configFileLocation = argv.C
   } else if (fileExists(I2CSSH_CONFIG_FILE)) {
@@ -118,10 +70,10 @@ function run() {
     config = yaml.safeLoad(fs.readFileSync(configFileLocation, 'utf8'));
   }
 
-	initConfig()
+  initConfig()
 
   if (argv.t) {
-    promises.push(parseTags(argv.t))
+    promises.push(parseTags(argv.t, config))
   }
 
   if (argv.c) {
@@ -130,7 +82,7 @@ function run() {
 
   Promise.all(promises).then(function(results) {
     hosts = _.uniq(hosts.concat(_.flatten(results)))
-    action(hosts)
+      action(hosts)
   }, function(errors) {
     console.log(errors)
   })
