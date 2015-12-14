@@ -1,7 +1,11 @@
 # node-i2cssh
 i2cssh with the support of osascript and node.
 It is highly inspired by the original [i2cssh](https://github.com/wouterdebie/i2cssh) and the AppleScript version of it ([i2cssh](https://github.com/djui/i2cssh)).
-It only runs from within [iTerm2 (>2.9)](https://iterm2.com/)! (currently only available as test releases)
+It only runs from within [iTerm2 (>2.9)](https://iterm2.com/)! (currently only available as test releases).
+The goal of this project is to create an alternative that is working with the newest iTerm2 and enhance it with features for the cloud like ssh to all ec2 instances that have a special tag.
+
+<img src="https://raw.github.com/errbuddy/node-i2cssh/master/demo.gif" width="400" />
+
 
 ## Installation
 `npm -g install node-i2cssh`
