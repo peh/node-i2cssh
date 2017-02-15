@@ -1,6 +1,6 @@
 {
   "name": "node-i2cssh",
-  "version": "1.5.3",
+  "version": "1.5.4",
   "description": "i2cssh with the help of node and osascript",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
