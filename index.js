@@ -103,7 +103,7 @@ function run() {
   }
 
   Promise.all(promises).then(function(results) {
-    hosts = _.uniq(hosts.concat(_.flatten(results)))
+    hosts = _.uniq(hosts.concat(_.flatten(results)));
     action(hosts, config)
   }, function(errors) {
     console.error(errors)

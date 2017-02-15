@@ -2,6 +2,10 @@
 aws:
   region: eu-central-1            # the aws region to doi calls to
   usePrivateDns: false            # whether to use private dns names
+  only:                           # only check the following tag key's
+    - Name
+    - Purpose
+  ignoreTagValue: "runner-.*"        # regexp of tag values to ignore
 clusters:                         # cluster definitions
   dev:                            # cluster name
     hosts:                        # a list of hostnames
