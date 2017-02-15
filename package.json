@@ -1,6 +1,6 @@
 {
   "name": "node-i2cssh",
-  "version": "1.5.2",
+  "version": "1.5.3",
   "description": "i2cssh with the help of node and osascript",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -25,7 +25,6 @@
   },
   "dependencies": {
     "aws-sdk": "^2.2.9",
-    "file-exists": "^3.0.1",
     "inquirer": "^3.0.1",
     "js-yaml": "^3.4.5",
     "lodash": "^4.17.4",
