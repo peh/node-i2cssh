@@ -39,6 +39,11 @@ optionaly: you can run
 `i2cssh -t`
 to get asked to which tag you want to connect to. Downside: you can only choose one key-value pair.
 
+### -u --user
+Change the username to connect with
+`i2cssh -u philipp foo1.bar`
+results in `ssh philipp@foo1.bar`
+
 ## EC2 Integration
 For the EC2 integration to work, you need to have `AWS_SECRET_ACCESS_KEY` and `AWS_ACCESS_KEY_ID` set as environment variables.
 I recommend using [envchain](https://github.com/sorah/envchain) and creating some alias for i2cssh wrapping it into envchain like
