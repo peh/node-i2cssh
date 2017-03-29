@@ -33,9 +33,9 @@ starts the broadcast mode immediatly after all tabs are created
 `i2cssh -b foo1.bar foo2.bar foo3.bar`
 
 ### -t --tags
-ec2 tag in the format of $NAME_$VALUE (underscore separated as it is forbidden to be used in tags)
-`i2cssh -t env_staging -t end_dev`
-optionaly: you can run
+ec2 tag in the format of $NAME=$VALUE (the `=` separator can be overridden in .i2csshrc -- see i2csshrc.example.yml).
+`i2cssh -t env=staging -t end=dev`
+Optionally: you can run
 `i2cssh -t`
 to get asked to which tag you want to connect to. Downside: you can only choose one key-value pair.
 
@@ -65,7 +65,7 @@ I recommend using [envchain](https://github.com/sorah/envchain) and creating som
  * -m, --machines a,b,c             Comma-separated list of hosts
  * -f, --file FILE                  Cluster file (one hostname per line)
  * -A, --forward-agent              Enable SSH agent forwarding
- * -l, --login LOGIN                SSH login name
+ * DONE (-u, --user) ~~-l, --login LOGIN                SSH login name~~
  * -e, --environment KEY=VAL        Send environment vars (comma-separated list, need to start with LC_)
  * -r, --rank                       Send LC_RANK with the host number as environment variable
  * -F, --fullscreen                 Make the window fullscreen

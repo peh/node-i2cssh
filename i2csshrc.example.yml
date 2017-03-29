@@ -2,6 +2,7 @@
 aws:
   region: eu-central-1            # the aws region to doi calls to
   usePrivateDns: false            # whether to use private dns names
+  nameValSeparator: ":"           # tag name/value separator (overrides default "=")
   only:                           # only check the following tag key's
     - Name
     - Purpose
