@@ -48,6 +48,7 @@ results in `ssh philipp@foo1.bar`
 For the EC2 integration to work, you need to have `AWS_SECRET_ACCESS_KEY` and `AWS_ACCESS_KEY_ID` set as environment variables.
 I recommend using [envchain](https://github.com/sorah/envchain) and creating some alias for i2cssh wrapping it into envchain like
 `alias i2cssh="envchain aws i2cssh $@"`
+You'll also need to defined the aws region in your .i2csshrc. see the example config for more information
 
 ## ToDo
 

@@ -1,25 +1,25 @@
 #!/usr/bin/env node
 
-var AWS = require("aws-sdk");
-var _ = require("lodash");
-var util = require("util");
-var path = require("path");
-var file = path.resolve(__dirname, "lib/i2cssh.js");
-var yaml = require("js-yaml");
-var fs = require("fs");
-var parseTags = require("./lib/parse-tags.js");
+const AWS = require("aws-sdk");
+const _ = require("lodash");
+const path = require("path");
+const file = path.resolve(__dirname, "lib/i2cssh.js");
+const yaml = require("js-yaml");
+const fs = require("fs");
+const parseTags = require("./lib/parse-tags.js");
 
-var argv = require("yargs")
+const argv = require("yargs")
   .alias("C", "config")
   .alias("c", "clusters")
   .alias("t", "tag")
   .alias("b", "broadcast")
   .alias("u", "user").argv;
-var config = {};
 
-var I2CSSH_CONFIG_FILE = path.join(process.env.HOME, "/.i2csshrc");
-var hosts = argv._;
-var promises = [];
+const I2CSSH_CONFIG_FILE = path.join(process.env.HOME, "/.i2csshrc");
+const promises = [];
+
+let config = {};
+let hosts = argv._;
 
 function action(cmd, runConfig) {
   cmd.unshift("osascript", "-l", "JavaScript", file);
@@ -53,30 +53,30 @@ function initConfig() {
 }
 
 function parseClusters(clusters, runConfig) {
-  var result = [];
+  let result = [];
   if (typeof clusters === "string") {
     clusters = [clusters];
   }
-  var configuredClusters = config.clusters || {};
+  const configuredClusters = config.clusters || {};
   checkOptionalParameters(configuredClusters, runConfig);
-  return new Promise(function(resolve, reject) {
-    _.each(clusters, function(cluster) {
-      var fromConf = configuredClusters[cluster];
+  return new Promise(function (resolve) {
+    clusters.forEach((cluster) => {
+      const fromConf = configuredClusters[cluster];
       if (!fromConf) {
         console.error(cluster + " is not configured and is being ignored");
       } else if (!fromConf.hosts) {
         console.error(cluster + " has no hosts configured.");
       } else {
         checkOptionalParameters(fromConf, runConfig);
-        result = result.concat(fromConf.hosts);
+        result = result.push(fromConf.hosts);
       }
-      resolve(result);
     });
+    resolve(result);
   });
 }
 
 function run() {
-  var configFileLocation;
+  let configFileLocation;
   if (argv.C) {
     configFileLocation = argv.C;
   } else if (fs.existsSync(I2CSSH_CONFIG_FILE)) {
@@ -106,11 +106,15 @@ function run() {
   }
 
   Promise.all(promises).then(
-    function(results) {
+    function (results) {
       hosts = _.uniq(hosts.concat(_.flatten(results)));
-      action(hosts, config);
+      if (hosts && hosts.length > 0) {
+        action(hosts, config);
+      } else {
+        console.error("No hosts defined or found for the given filters")
+      }
     },
-    function(errors) {
+    function (errors) {
       console.error(errors);
     }
   );

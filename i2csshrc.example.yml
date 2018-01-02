@@ -31,3 +31,4 @@ clusters:                         # cluster definitions
       - host08.example.com
       - host09.example.com
       - host10.example.com
+skipConfirm: false              # do not ask for more then on TagKey TagValue pair in EC2 (and future other cloud) setups
