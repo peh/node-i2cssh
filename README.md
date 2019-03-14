@@ -52,28 +52,25 @@ You'll also need to defined the aws region in your .i2csshrc. see the example co
 
 ## ToDo
 
-* fully support original .i2csshrc
- * DONE ~~broadcast: (true/false)     # Enable/disable broadcast on start~~
- * login: <username>           # Use this username for login
- * profile: <iTerm2 profile>   # Use this iTerm profile
- * rank: (true/false)          # Enable sending LC_RANK as an environment variable
- * columns: <cols>             # Amount of columns
- * rows: <rows>                # Amount of rows
- * sleep: <secs>               # Seconds to sleep between creating SSH sessions
- * environment:                # Send the following enviroment variables
-* fully support original command line options
- * DONE ~~-c, --clusters clus1,clus2       Comma-separated list of clusters specified in ~/.i2csshrc~~
- * -m, --machines a,b,c             Comma-separated list of hosts
- * -f, --file FILE                  Cluster file (one hostname per line)
- * -A, --forward-agent              Enable SSH agent forwarding
- * DONE (-u, --user) ~~-l, --login LOGIN                SSH login name~~
- * -e, --environment KEY=VAL        Send environment vars (comma-separated list, need to start with LC_)
- * -r, --rank                       Send LC_RANK with the host number as environment variable
- * -F, --fullscreen                 Make the window fullscreen
- * --columns COLUMNS            Number of columns (rows will be calculated)
- * --rows ROWS                  Number of rows (columns will be calculated)
- * DONE ~~-b, --broadcast                  Start with broadcast input (DANGEROUS!)~~
- * -nb, --nobroadcast               Disable broadcast
- * -p, --profile PROFILE            Name of the iTerm2 profile (default: Default)
- * -s, --sleep SLEEP                Number of seconds to sleep between creating SSH sessions
- * -X, --extra EXTRA_PARAM          Additional ssh parameters (e.g. -Xi=myidentity.pem)
+- fully support original .i2csshrc
+  - login: <username>           # Use this username for login
+  - profile: <iTerm2 profile>   # Use this iTerm profile
+  - rank: (true/false)          # Enable sending LC_RANK as an environment variable
+  - columns: <cols>             # Amount of columns
+  - rows: <rows>                # Amount of rows
+  - sleep: <secs>               # Seconds to sleep between creating SSH sessions
+  - environment:                # Send the following enviroment variables
+- fully support original command line options
+  - -m, --machines a,b,c             Comma-separated list of hosts
+  - -f, --file FILE                  Cluster file (one hostname per line)
+  - -A, --forward-agent              Enable SSH agent forwarding
+  - -e, --environment KEY=VAL        Send environment vars (comma-separated list, need to start with LC_)
+  - -r, --rank                       Send LC_RANK with the host number as environment variable
+  - -F, --fullscreen                 Make the window fullscreen
+  - --columns COLUMNS            Number of columns (rows will be calculated)
+  - --rows ROWS                  Number of rows (columns will be calculated)
+  - -nb, --nobroadcast               Disable broadcast
+  - -p, --profile PROFILE            Name of the iTerm2 profile (default: Default)
+  - -s, --sleep SLEEP                Number of seconds to sleep between creating SSH sessions
+  - -X, --extra EXTRA_PARAM          Additional ssh parameters (e.g. -Xi=myidentity.pem)
+- document
