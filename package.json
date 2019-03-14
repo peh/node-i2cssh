@@ -1,9 +1,9 @@
 {
   "name": "node-i2cssh",
-  "version": "1.7.0",
+  "version": "2.0.0",
   "description": "i2cssh with the help of node and osascript",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "NODE_ENV=test envchain aws node index.js 1 2 3 4 5 6 7 1 8 9 10 11"
   },
   "repository": {
     "type": "git",
@@ -24,17 +24,16 @@
     "i2cssh": "index.js"
   },
   "dependencies": {
-    "aws-sdk": "^2.3.0",
+    "aws-sdk": "^2.421.0",
     "fuzzy": "^0.1.3",
-    "inquirer": "^3.0.1",
-    "inquirer-autocomplete-prompt": "^0.12.1",
+    "inquirer": "^6.2.2",
+    "inquirer-autocomplete-prompt": "^1.0.1",
     "js-yaml": "^3.4.5",
-    "lodash": "^4.17.4",
     "osascript": "^1.2.0",
-    "var": "^0.2.0",
-    "yargs": "^6.6.0"
+    "var": "^0.3.2",
+    "yargs": "^13.2.2"
   },
   "engines": {
-    "node": "^7.6.0"
+    "node": "^10"
   }
 }

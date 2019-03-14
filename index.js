@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 
 const AWS = require("aws-sdk");
-const _ = require("lodash");
 const path = require("path");
 const file = path.resolve(__dirname, "lib/i2cssh.js");
 const yaml = require("js-yaml");
@@ -16,15 +15,19 @@ const argv = require("yargs")
   .alias("u", "user").argv;
 
 const I2CSSH_CONFIG_FILE = path.join(process.env.HOME, "/.i2csshrc");
-const promises = [];
 
+let testMode = process.env.NODE_ENV == "test"
 let config = {};
-let hosts = argv._;
 
-function action(cmd, runConfig) {
-  cmd.unshift("osascript", "-l", "JavaScript", file);
-  cmd.push("'" + JSON.stringify(runConfig) + "'");
-  require("child_process").exec(cmd.join(" "));
+function action(hosts, runConfig) {
+  let cleaned = hosts.filter(h=>!!h)
+  let cmd = ["osascript", "-l", "JavaScript", file, ...cleaned, Buffer.from(JSON.stringify(runConfig)).toString('base64')].join(" ")
+
+  if(testMode) {
+    console.log(cmd)
+  } else {
+      require("child_process").exec(cmd);
+  }
 }
 
 function checkOptionalParameters(config, runConfig) {
@@ -75,8 +78,10 @@ function parseClusters(clusters, runConfig) {
   });
 }
 
-function run() {
+async function run() {
   let configFileLocation;
+  let hosts = new Set(argv._)
+
   if (argv.C) {
     configFileLocation = argv.C;
   } else if (fs.existsSync(I2CSSH_CONFIG_FILE)) {
@@ -84,7 +89,7 @@ function run() {
   }
 
   if (configFileLocation) {
-    config = yaml.safeLoad(fs.readFileSync(configFileLocation, "utf8"));
+    config = yaml.safeLoad(fs.readFileSync(configFileLocation, "ascii"));
   }
 
   initConfig();
@@ -94,30 +99,26 @@ function run() {
   }
 
   if (argv.t) {
-    promises.push(parseTags(argv.t, config));
+    let parsedTags = await parseTags(argv.t, config)
+    parsedTags.forEach(t => hosts.add(t));
   }
 
   if (argv.c) {
-    promises.push(parseClusters(argv.c, config));
+    let fromCluster = await parseClusters(argv.c, config)
+    fromCluster.forEach(t => hosts.add(t));
   }
 
   if (argv.u) {
     config.user = argv.u;
   }
 
-  Promise.all(promises).then(
-    function (results) {
-      hosts = _.uniq(hosts.concat(_.flatten(results)));
-      if (hosts && hosts.length > 0) {
-        action(hosts, config);
-      } else {
-        console.error("No hosts defined or found for the given filters")
-      }
-    },
-    function (errors) {
-      console.error(errors);
-    }
-  );
+  config.test = testMode
+
+  if (hosts.size > 0) {
+    action([...hosts], config);
+  } else {
+    console.error("No hosts defined or found for the given filters")
+  }
 }
 
 run();
